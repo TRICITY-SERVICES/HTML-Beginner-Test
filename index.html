@@ -3,274 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTML Quiz - Tricity Academy</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<title>HTML Beginner Test | Tricity Services</title>
 <style>
   body {
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #0078d7, #00b7ff);
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(120deg, #e0f7fa, #ffffff);
     color: #333;
     padding: 20px;
   }
 
   .quiz-container {
-    max-width: 900px;
-    margin: 30px auto;
+    max-width: 850px;
+    margin: auto;
     background: #fff;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
 
   h1 {
     text-align: center;
     color: #0078d7;
-    margin-bottom: 10px;
-  }
-
-  input#studentName {
-    display: block;
-    margin: 0 auto 15px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 60%;
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .progress-bar {
-    height: 10px;
-    width: 0%;
-    background: #0078d7;
-    border-radius: 5px;
-    transition: width 0.5s;
-  }
-
-  .progress-container {
-    background: #e0e0e0;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    height: 10px;
+    font-size: 28px;
   }
 
   .question {
-    font-weight: 600;
+    font-weight: bold;
     margin-top: 20px;
-    color: #222;
   }
 
   .options label {
     display: block;
-    margin: 8px 0;
-    padding: 10px 12px;
-    border-radius: 10px;
+    margin: 6px 0;
+    padding: 8px 10px;
+    border-radius: 8px;
     border: 1px solid #ddd;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
   }
 
-  .options label:hover { background: #e9f5ff; }
-  .options input { margin-right: 10px; }
+  .options input {
+    margin-right: 10px;
+  }
+
+  .options label:hover {
+    background: #f0f9ff;
+  }
 
   button {
     display: block;
     margin: 30px auto;
-    padding: 12px 30px;
+    padding: 12px 40px;
     background: #0078d7;
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 18px;
+    border-radius: 8px;
+    font-size: 17px;
     cursor: pointer;
     transition: 0.3s;
   }
 
-  button:hover { background: #005fa3; transform: scale(1.05); }
+  button:hover {
+    background: #005fa3;
+  }
 
   .result {
     text-align: center;
     font-size: 22px;
     font-weight: bold;
     color: #0078d7;
+  }
+
+  .correct {
+    background-color: #d4edda !important;
+    border-color: #28a745 !important;
+  }
+
+  .wrong {
+    background-color: #f8d7da !important;
+    border-color: #dc3545 !important;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
     margin-top: 20px;
   }
 
-  .correct { background-color: #d4edda; border-color: #28a745; }
-  .wrong { background-color: #f8d7da; border-color: #dc3545; }
-
-  .certificate {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    justify-content: center; align-items: center;
-    z-index: 1000;
-  }
-
-  .certificate-content {
-    background: #fff;
-    border-radius: 20px;
-    padding: 40px;
-    width: 500px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    animation: pop 0.7s ease;
-  }
-
-  @keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  .certificate-content h2 { color: #0078d7; font-size: 28px; }
-  .certificate-content p { font-size: 18px; color: #444; }
-
-  .close-btn {
-    margin-top: 20px;
+  .progress {
+    height: 100%;
+    width: 0%;
     background: #0078d7;
-    color: #fff;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 8px;
-    cursor: pointer;
+    transition: width 0.6s ease;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #666;
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 
 <div class="quiz-container">
-  <h1>HTML Quiz - Tricity Academy</h1>
-  <input type="text" id="studentName" placeholder="Enter your name before starting..." required>
-  <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
+  <h1>HTML Beginner Test</h1>
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
   <form id="quizForm"></form>
-  <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+  <button type="button" onclick="submitQuiz()">Submit Answers</button>
   <div id="result" class="result"></div>
 </div>
 
-<div class="certificate" id="certificatePopup">
-  <div class="certificate-content">
-    <h2>🎉 Congratulations!</h2>
-    <p id="certText"></p>
-    <button class="close-btn" onclick="downloadCertificate()">Download Certificate (PDF)</button>
-  </div>
-</div>
+<footer>© 2025 Tricity Services | All Rights Reserved</footer>
 
 <script>
-const quizData = [
-  { q: "What does HTML stand for?", options: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyper Text Markdown Language"], answer: 2 },
-  { q: "Who is the father of HTML?", options: ["Tim Berners-Lee", "Brendan Eich", "Dennis Ritchie", "Bill Gates"], answer: 0 },
-  { q: "Which HTML tag is used to define the largest heading?", options: ["<h6>", "<head>", "<heading>", "<h1>"], answer: 3 },
-  { q: "Which tag is used to insert a line break?", options: ["<br>", "<lb>", "<break>", "<newline>"], answer: 0 },
-  { q: "What is the correct element for inserting an image?", options: ["<img href='image.jpg'>", "<image src='image.jpg'>", "<img src='image.jpg'>", "<pic src='image.jpg'>"], answer: 2 },
-  { q: "Correct syntax for hyperlink?", options: ["<a src='www.google.com'>", "<a href='www.google.com'>", "<link>Google</link>", "<a url='www.google.com'>"], answer: 1 },
-  { q: "Which element defines a paragraph?", options: ["<para>", "<paragraph>", "<p>", "<pg>"], answer: 2 },
-  { q: "How to make text bold?", options: ["<bold>", "<b>", "<bb>", "<stronger>"], answer: 1 },
-  { q: "Tag for unordered list?", options: ["<ul>", "<ol>", "<list>", "<uol>"], answer: 0 },
-  { q: "Tag for numbered list?", options: ["<ul>", "<ol>", "<li>", "<dl>"], answer: 1 },
-  { q: "Tag for table row?", options: ["<td>", "<tr>", "<table>", "<row>"], answer: 1 },
-  { q: "What does <title> tag do?", options: ["Heading on the page", "Adds title inside page", "Shows text in browser tab", "Adds tooltip"], answer: 2 },
-  { q: "Which tag defines metadata?", options: ["<meta>", "<data>", "<info>", "<head>"], answer: 0 },
-  { q: "Attribute for alternative text of image?", options: ["title", "alt", "src", "href"], answer: 1 },
-  { q: "Tag for preformatted text?", options: ["<pre>", "<code>", "<format>", "<text>"], answer: 0 },
-  { q: "Create a checkbox?", options: ["<input type='check'>", "<input type='checkbox'>", "<checkbox>", "<input checkbox>"], answer: 1 },
-  { q: "Tag for section/division?", options: ["<div>", "<section>", "<span>", "<area>"], answer: 0 },
-  { q: "Open link in new tab?", options: ["target='_self'", "target='_blank'", "window='new'", "tab='new'"], answer: 1 },
-  { q: "Purpose of <form> tag?", options: ["Format text", "Collect user input", "Add images", "Create tables"], answer: 1 },
-  { q: "Correct tag for background image?", options: ["<background src='image.jpg'>", "<body background='image.jpg'>", "<bg src='image.jpg'>", "<img background='image.jpg'>"], answer: 1 }
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const quizData = [
+    { q: "What does HTML stand for?", options: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyper Text Markdown Language"], answer: 2 },
+    { q: "Who invented HTML?", options: ["Tim Berners-Lee", "Brendan Eich", "Bill Gates", "James Gosling"], answer: 0 },
+    { q: "Which tag defines the largest heading?", options: ["&lt;h6&gt;", "&lt;head&gt;", "&lt;heading&gt;", "&lt;h1&gt;"], answer: 3 },
+    { q: "Which tag is used to insert a line break?", options: ["&lt;br&gt;", "&lt;lb&gt;", "&lt;break&gt;", "&lt;newline&gt;"], answer: 0 },
+    { q: "What is the correct element for inserting an image?", options: ["&lt;img href='image.jpg'&gt;", "&lt;image src='image.jpg'&gt;", "&lt;img src='image.jpg'&gt;", "&lt;pic src='image.jpg'&gt;"], answer: 2 },
+    { q: "What is the correct HTML element for a hyperlink?", options: ["&lt;a href='url'&gt;", "&lt;link&gt;", "&lt;hyper&gt;", "&lt;href&gt;"], answer: 0 },
+    { q: "Which element defines a paragraph?", options: ["&lt;p&gt;", "&lt;para&gt;", "&lt;paragraph&gt;", "&lt;pg&gt;"], answer: 0 },
+    { q: "Choose correct tag to make text bold:", options: ["&lt;b&gt;", "&lt;bold&gt;", "&lt;bb&gt;", "&lt;stronger&gt;"], answer: 0 },
+    { q: "Which tag creates an unordered list?", options: ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;list&gt;", "&lt;li&gt;"], answer: 0 },
+    { q: "Which tag creates a numbered list?", options: ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;dl&gt;"], answer: 1 },
+    { q: "Which tag defines a table row?", options: ["&lt;tr&gt;", "&lt;td&gt;", "&lt;table&gt;", "&lt;row&gt;"], answer: 0 },
+    { q: "What does the &lt;title&gt; tag do?", options: ["Displays text in browser tab", "Displays a title on page", "Shows tooltip text", "Adds subtitle"], answer: 0 },
+    { q: "Which tag defines metadata?", options: ["&lt;meta&gt;", "&lt;data&gt;", "&lt;info&gt;", "&lt;head&gt;"], answer: 0 },
+    { q: "Which attribute provides alternative text for an image?", options: ["title", "alt", "src", "href"], answer: 1 },
+    { q: "Tag for preformatted text?", options: ["&lt;pre&gt;", "&lt;code&gt;", "&lt;format&gt;", "&lt;text&gt;"], answer: 0 },
+    { q: "How to create a checkbox?", options: ["&lt;input type='check'&gt;", "&lt;input type='checkbox'&gt;", "&lt;checkbox&gt;", "&lt;input checkbox&gt;"], answer: 1 },
+    { q: "Which tag defines a section/division?", options: ["&lt;div&gt;", "&lt;section&gt;", "&lt;span&gt;", "&lt;area&gt;"], answer: 0 },
+    { q: "Open a link in a new tab?", options: ["target='_self'", "target='_blank'", "window='new'", "tab='new'"], answer: 1 },
+    { q: "Purpose of &lt;form&gt; tag?", options: ["Collect user input", "Format text", "Add tables", "Upload files only"], answer: 0 },
+    { q: "Correct tag for background image?", options: ["&lt;body background='img.jpg'&gt;", "&lt;background src='img.jpg'&gt;", "&lt;img background&gt;", "&lt;bg&gt;"], answer: 0 }
+  ];
 
-const form = document.getElementById("quizForm");
-quizData.forEach((item, i) => {
-  form.innerHTML += `
-    <div class="question">${i + 1}. ${item.q}</div>
-    <div class="options">
-      ${item.options.map((opt, idx) => `
-        <label>
-          <input type="radio" name="q${i}" value="${idx}" onchange="updateProgress()"> ${opt}
-        </label>
-      `).join("")}
-    </div>
-  `;
-});
+  const form = document.getElementById("quizForm");
+  const progress = document.getElementById("progress");
 
-function updateProgress() {
-  const answered = document.querySelectorAll("input:checked").length;
-  const total = quizData.length;
-  document.getElementById("progress").style.width = `${(answered / total) * 100}%`;
-}
-
-function submitQuiz() {
-  const studentName = document.getElementById("studentName").value.trim();
-  if (!studentName) return alert("Please enter your name before submitting.");
-
-  let score = 0;
   quizData.forEach((item, i) => {
-    const selected = document.querySelector(`input[name="q${i}"]:checked`);
-    const labels = document.querySelectorAll(`input[name="q${i}"]`);
-    labels.forEach(label => label.parentElement.classList.remove("correct", "wrong"));
-    if (selected) {
-      const val = parseInt(selected.value);
-      const parent = selected.parentElement;
-      if (val === item.answer) {
-        score++;
-        parent.classList.add("correct");
-      } else {
-        parent.classList.add("wrong");
-      }
-    }
+    const questionHTML = `
+      <div class="question">${i + 1}. ${item.q}</div>
+      <div class="options">
+        ${item.options.map((opt, idx) => `
+          <label>
+            <input type="radio" name="q${i}" value="${idx}"> ${opt}
+          </label>
+        `).join("")}
+      </div>
+    `;
+    form.innerHTML += questionHTML;
   });
-  document.getElementById("result").textContent = `You scored ${score} / ${quizData.length}`;
-  showCertificate(studentName, score);
-}
 
-function showCertificate(name, score) {
-  document.getElementById("certificatePopup").style.display = "flex";
-  document.getElementById("certText").innerHTML =
-    `${name}, you scored <b>${score}</b> out of <b>${quizData.length}</b> in the HTML Quiz.<br>Click below to download your certificate.`;
-}
-
-async function downloadCertificate() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  const name = document.getElementById("studentName").value.trim();
-  const resultText = document.getElementById("result").textContent;
-
-  // Certificate layout
-  doc.setFillColor(230, 247, 255);
-  doc.rect(0, 0, 210, 297, "F");
-  doc.setTextColor(0, 0, 100);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(26);
-  doc.text("Certificate of Achievement", 35, 60);
-
-  doc.setFontSize(16);
-  doc.text("This certificate is proudly presented to", 55, 90);
-  doc.setFontSize(22);
-  doc.text(name, 80 - (name.length * 0.5), 110);
-
-  doc.setFontSize(16);
-  doc.text(resultText, 40, 130);
-  doc.text("For successfully completing the HTML Quiz", 35, 150);
-  doc.text("with Tricity Academy.", 70, 165);
-
-  doc.setFontSize(14);
-  doc.text("Date: " + new Date().toLocaleDateString(), 30, 200);
-  doc.text("Authorized by: Tricity Academy", 30, 210);
-
-  doc.setFontSize(12);
-  doc.text("www.tricity.co.in", 85, 270);
-
-  doc.save(`${name}-Certificate.pdf`);
-}
+  window.submitQuiz = function() {
+    let score = 0;
+    quizData.forEach((item, i) => {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      const options = document.querySelectorAll(`input[name="q${i}"]`);
+      options.forEach(opt => opt.parentElement.classList.remove("correct", "wrong"));
+      if (selected) {
+        if (parseInt(selected.value) === item.answer) {
+          score++;
+          selected.parentElement.classList.add("correct");
+        } else {
+          selected.parentElement.classList.add("wrong");
+        }
+      }
+    });
+    const percentage = (score / quizData.length) * 100;
+    progress.style.width = `${percentage}%`;
+    document.getElementById("result").textContent = `🎯 You scored ${score} / ${quizData.length} (${Math.round(percentage)}%)`;
+    if (percentage === 100) {
+      alert("🏆 Perfect Score! Congratulations!");
+    }
+  };
+});
 </script>
+
 </body>
 </html>
