@@ -21,6 +21,22 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
 
+  .certificate-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+
+  .certificate-header img.logo {
+    height: 60px;
+  }
+
+  .certificate-header img.trophy {
+    height: 48px;
+  }
+
   h1 {
     text-align: center;
     color: #0078d7;
@@ -100,6 +116,35 @@
     transition: width 0.6s ease;
   }
 
+  /* Name modal styles */
+  #nameModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.45);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  }
+  #nameModalInner {
+    background:white;
+    border-radius:14px;
+    padding:36px 38px;
+    box-shadow:0 2px 24px rgba(0,0,0,.20);
+    text-align:center;
+    min-width:300px;
+  }
+  #studentNameInput {
+    font-size:18px;
+    padding:8px 12px;
+    border-radius:6px;
+    border:1px solid #aaa;
+    width:220px;
+  }
+  #studentNameInput:focus {
+    border-color: #0078d7;
+    outline: none;
+  }
+
   footer {
     text-align: center;
     margin-top: 40px;
@@ -110,7 +155,23 @@
 </head>
 <body>
 
-<div class="quiz-container">
+<!-- Name Prompt Modal -->
+<div id="nameModal">
+  <div id="nameModalInner">
+    <h2>Please enter your name to begin:</h2>
+    <input type="text" id="studentNameInput" placeholder="Your Name">
+    <br><br>
+    <button onclick="startQuiz()">Start</button>
+  </div>
+</div>
+
+<div class="quiz-container" id="quizMain" style="display:none;">
+  <!-- Certificate style header -->
+  <div class="certificate-header">
+    <img src="Dark-Logo-8x.jpg" alt="Tricity Services Logo" class="logo">
+    <!-- Neutral, modern trophy, replace with your preferred PNG if needed -->
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3c6.png" alt="Trophy Icon" class="trophy">
+  </div>
   <h1>HTML Beginner Test</h1>
   <div class="progress-bar"><div class="progress" id="progress"></div></div>
   <form id="quizForm"></form>
@@ -121,7 +182,27 @@
 <footer>© 2025 Tricity Services | All Rights Reserved</footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+  let studentName = "";
+
+  window.onload = function() {
+    document.getElementById('nameModal').style.display = "flex";
+    document.getElementById('quizMain').style.display = "none";
+    document.getElementById('studentNameInput').focus();
+  };
+
+  function startQuiz() {
+    const input = document.getElementById('studentNameInput');
+    if (input.value.trim().length < 2) {
+      input.style.borderColor = "red";
+      input.focus();
+      return;
+    }
+    studentName = input.value.trim();
+    document.getElementById('nameModal').style.display = "none";
+    document.getElementById('quizMain').style.display = "block";
+  }
+
+  // Update or add more quiz questions here as needed.
   const quizData = [
     { q: "What does HTML stand for?", options: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyper Text Markdown Language"], answer: 2 },
     { q: "Who invented HTML?", options: ["Tim Berners-Lee", "Brendan Eich", "Bill Gates", "James Gosling"], answer: 0 },
@@ -179,13 +260,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const percentage = (score / quizData.length) * 100;
     progress.style.width = `${percentage}%`;
-    document.getElementById("result").textContent = `🎯 You scored ${score} / ${quizData.length} (${Math.round(percentage)}%)`;
+    document.getElementById("result").innerHTML = `
+      🎯 You scored ${score} / ${quizData.length} (${Math.round(percentage)}%)<br>
+      <div style="margin-top:14px; font-size:18px; color:#444;">
+        Congratulations, <b>${studentName || 'Student'}</b>!<br>
+        This certifies your successful completion of the <b>HTML Beginner Test</b> by Tricity Services.
+      </div>
+    `;
     if (percentage === 100) {
       alert("🏆 Perfect Score! Congratulations!");
     }
   };
-});
 </script>
-
 </body>
 </html>
